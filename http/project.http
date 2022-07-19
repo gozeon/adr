@@ -1,0 +1,23 @@
+### 列表
+GET  http://localhost:3000/api/projects
+
+### 新建
+POST http://localhost:3000/api/project
+Content-Type: application/json
+
+{
+    "title": "test"
+}
+
+###  修改
+POST http://localhost:3000/api/project
+Content-Type: application/json
+
+{
+    "id": 3,
+    "title": "test update",
+    "description": "desc"
+}
+
+### 删除
+DELETE http://localhost:3000/api/project/1

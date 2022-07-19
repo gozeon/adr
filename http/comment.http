@@ -1,0 +1,27 @@
+### 列表
+GET  http://localhost:3000/api/comment
+
+### 记录下的评论列表
+GET  http://localhost:3000/api/comment/5
+
+### 新建
+POST http://localhost:3000/api/comment
+Content-Type: application/json
+
+{
+    "description": "description",
+    "record_id": 5
+}
+
+### 修改
+POST http://localhost:3000/api/comment
+Content-Type: application/json
+
+{
+    "id": 1,
+    "description": "description update",
+    "record_id": 5
+}
+
+### 删除
+DELETE http://localhost:3000/api/record/2
