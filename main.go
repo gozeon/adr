@@ -66,6 +66,19 @@ func main() {
 		})
 	})
 
+	api.Get("/project/:id", func(c *fiber.Ctx) error {
+		var json model.Project
+
+		if err := db.Model(&model.Project{}).Where("id = ?", c.Params("id")).First(&json).Error; err != nil {
+			return err
+		}
+
+		return c.Status(200).JSON(fiber.Map{
+			"errNo": 0,
+			"data":  json,
+		})
+	})
+
 	api.Post("/project", func(c *fiber.Ctx) error {
 		json := new(model.Project)
 		if err := c.BodyParser(json); err != nil {

@@ -6,7 +6,7 @@ import (
 
 type Project struct {
 	gorm.Model
-	Title       string `gorm:"size:50;index" binding:"required" json:"title" validate:"required,min=3,max=50"`
+	Title       string `gorm:"size:50;uniqueIndex" binding:"required" json:"title" validate:"required,min=3,max=50"`
 	Description string `gorm:"size:120" json:"description" validate:"max=120"`
 }
 

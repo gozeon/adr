@@ -1,6 +1,9 @@
 ### 列表
 GET  http://localhost:3000/api/projects
 
+### 详情
+GET  http://localhost:3000/api/project/1
+
 ### 新建
 POST http://localhost:3000/api/project
 Content-Type: application/json
