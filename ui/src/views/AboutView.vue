@@ -1,7 +1,8 @@
 <template>
-  <h3 class="mt-10 text-3xl divide-light-600 px-3 md:px-4">{{ project.title }}</h3>
+  <h3 class="mt-10 text-3xl cursor-pointer divide-light-600 px-3 md:px-4" @click="openModal('update')">{{ project.title
+  }}</h3>
 
-  <p class="mt-4 px-3 md:px-4" v-if="project.description">
+  <p class="mt-4 px-3 md:px-4 cursor-pointer" @click="openModal('update')">
     {{ project.description }}
   </p>
 
@@ -60,11 +61,39 @@
       </div>
     </form>
   </Modal>
+
+  <Modal v-if="hasRole('update')" type="update">
+    <form @submit.prevent="handleUpdate" class="bg-white w-3/4 xl:w-1/3  m-auto px-8 py-5 mt-3 opacity-100">
+      <div class="grid grid-cols-4 col-span-2 mb-5">
+        <label class="col-span-1 self-center">ID</label>
+        <input v-model="project.ID" type="text" readonly class="col-span-3 p-3 focus:(border-dark-500 ring-gray-500)"
+          placeholder="Project Name">
+      </div>
+      <div class="grid grid-cols-4 col-span-2 mb-5">
+        <label class="col-span-1 self-center">Name</label>
+        <input v-model="project.title" type="text" required minlength="3" maxlength="50"
+          class="col-span-3 p-3 focus:(border-dark-500 ring-gray-500) placeholder-gray-500" placeholder="Project Name">
+      </div>
+
+      <div class="grid grid-cols-4 col-span-2 mb-5">
+        <label class="col-span-1 self-center">Description</label>
+        <textarea v-model="project.description" maxlength="120"
+          class="col-span-3 resize-none p-3 focus:(border-dark-500 ring-gray-500) placeholder-gray-500"
+          placeholder="Project Description"></textarea>
+      </div>
+
+      <div class="grid grid-cols-4 col-span-2">
+        <button type="submit"
+          class="col-start-2 py-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)">Save</button>
+      </div>
+
+    </form>
+  </Modal>
 </template>
 
 <script setup lang="ts">
 import { reactive, computed, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { QuillEditor } from '@vueup/vue-quill'
 
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -75,6 +104,7 @@ import Modal from '../components/Modal/index.vue'
 
 
 const route = useRoute();
+const router = useRouter();
 const projectStore = useProjectStore();
 const recordStore = useRecordStore();
 const project = computed<any>(() => projectStore.activeProject);
@@ -114,6 +144,11 @@ const handleCreate = async () => {
 }
 
 const handleDetail = async (id: any) => {
+  router.push({
+    name: 'record',
+    params: { id, pid }
+  })
+  return
   const { data } = await recordStore.loadDetail(id)
   if (data?.errNo == 0) {
     Object.assign(formData, { ...data.data })
@@ -122,6 +157,18 @@ const handleDetail = async (id: any) => {
   } else {
     alert(data.errMsg)
   }
+}
+
+const handleUpdate = async () => {
+  const res = await projectStore.createOrUpdateProject({ ...project.value })
+  if (res.data?.errNo === 0) {
+    projectStore.loadDetail(pid)
+    closeModal('update')
+    Object.assign(formData, {})
+  } else {
+    alert(res.data?.errMsg)
+  }
+
 }
 
 // const loadData = () => Promise.all([

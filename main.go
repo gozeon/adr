@@ -191,7 +191,7 @@ func main() {
 		})
 	})
 
-	api.Get("/comment", func(c *fiber.Ctx) error {
+	api.Get("/comments", func(c *fiber.Ctx) error {
 		var json []model.Comment
 
 		if err := db.Model(&model.Comment{}).Order("created_at asc").Find(&json).Error; err != nil {

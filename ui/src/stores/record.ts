@@ -6,6 +6,7 @@ export const useRecordStore = defineStore({
   state: () => ({
     records: [],
     activeRecords: [],
+    activeRecord: {},
     statusMap: [
       { val: 1, label: "提议" },
       { val: 2, label: "通过" },
@@ -15,7 +16,11 @@ export const useRecordStore = defineStore({
     ],
     loading: false,
   }),
-  getters: {},
+  getters: {
+    getStatusLabelById: state => {
+      return (id: number) => state.statusMap.find(item => item.val === id)?.label
+    },
+  },
   actions: {
     async loadRecordByID(id: any) {
       this.loading = true;
@@ -33,6 +38,7 @@ export const useRecordStore = defineStore({
     async loadDetail(id: any) {
       this.loading = true;
       const res = await axios.get(`/api/records/${id}`);
+      this.activeRecord = res.data?.data
       this.loading = false;
       return res;
     },

@@ -6,10 +6,10 @@ import { useProjectStore } from "./stores/project";
 
 const store = useProjectStore()
 const activeProject = computed<any>(() => {
-  if (useRouter().currentRoute.value.name == 'about') {
-    return store.activeProject
+  if (useRouter().currentRoute.value.name == 'home') {
+    return {}
   }
-  return {}
+  return store.activeProject
 })
 </script>
 
@@ -17,8 +17,9 @@ const activeProject = computed<any>(() => {
   <div class="font-mono tracking-wide">
     <header class="sticky top-0 bg-white py-3 px-8">
       <RouterLink to="/">Adr</RouterLink>
-      <span v-if="activeProject.title"> / {{ activeProject.title }}</span>
-
+      <RouterLink v-if="activeProject.ID" :to="{ name: 'about', params: { id: activeProject.ID } }"> / {{
+          activeProject.title
+      }}</RouterLink>
     </header>
 
     <div class="w-full md:w-3/4 xl:w-2/4 m-auto">
