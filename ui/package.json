@@ -9,6 +9,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@vueup/vue-quill": "^1.0.0-beta.9",
     "axios": "^0.27.2",
     "pinia": "^2.0.16",
     "sass": "^1.53.0",

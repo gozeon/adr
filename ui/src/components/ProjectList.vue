@@ -84,7 +84,7 @@ const handleLoadDetail = async (id: any) => {
 const handleGotoRecord = async (id: any) => {
     router.push({
         name: 'about',
-        query: { id }
+        params: { id }
     })
 
 }

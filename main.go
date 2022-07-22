@@ -128,6 +128,19 @@ func main() {
 		})
 	})
 
+	api.Get("/records/:id", func(c *fiber.Ctx) error {
+		var json model.Record
+
+		if err := db.Model(&model.Record{}).Where("id = ?", c.Params("id")).Order("created_at asc").Find(&json).Error; err != nil {
+			return err
+		}
+
+		return c.Status(200).JSON(fiber.Map{
+			"errNo": 0,
+			"data":  json,
+		})
+	})
+
 	api.Get("/record/:project_id", func(c *fiber.Ctx) error {
 		var json []model.Record
 
