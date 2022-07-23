@@ -14,12 +14,12 @@
     <small>上次修改时间: {{ formatTime(record.UpdatedAt) }}</small>
   </p>
 
-  <p class="mt-5 px-3 md:px-4 cursor-pointer img-w-full" v-html="record.description">
+  <p class="mt-5 px-3 md:px-4 cursor-pointer rich-text" v-html="record.description">
   </p>
 
   <div class="px-3 md:px-5 mt-6 m-3 border-1 " v-for="comment in comments">
     <div class="py-1 border-b-1"><small>{{ formatTime(comment.CreatedAt) }}</small></div>
-    <div class="img-w-full" v-html="comment.description"></div>
+    <div class="rich-text" v-html="comment.description"></div>
   </div>
 
   <div class="m-3 mt-12">
@@ -34,7 +34,8 @@
   </div>
 
   <Modal v-if="hasRole('create')" type="create">
-    <form @submit.prevent="handleCreate" class="bg-white w-3/4 xl:w-2/3  m-auto px-8 py-5 mt-3 opacity-100">
+    <form @submit.prevent="handleCreate"
+      class="bg-white w-3/4 xl:w-2/3 <sm:w-11/12 m-auto px-8 py-5 mt-3 opacity-100 break-all">
       <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center md:justify-self-center">Title</label>
         <input type="text" v-model="record.title" required minlength="3" maxlength="50"
@@ -49,7 +50,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-4 col-span-2 mt-20">
+      <div class="grid grid-cols-4 col-span-2 mt-20 <sm:mt-30">
         <button type="submit"
           class="col-start-2 <sm:col-start-1 py-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)">Save</button>
       </div>
@@ -138,7 +139,7 @@ watchEffect(() => {
 /* https://github.com/vuejs/core/issues/4745 */
 /* https://vue-loader.vuejs.org/guide/scoped-css.html */
 /* https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md */
-.img-w-full :deep(img) {
-  width: 100%;
+.rich-text :deep(img) {
+  width: 75%;
 }
 </style>

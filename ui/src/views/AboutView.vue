@@ -40,7 +40,8 @@
   <div class="py-20"></div>
 
   <Modal v-if="hasRole('create')" type="create">
-    <form @submit.prevent="handleCreate" class="bg-white w-3/4 xl:w-2/3  m-auto px-8 py-5 mt-3 opacity-100">
+    <form @submit.prevent="handleCreate"
+      class="bg-white w-3/4 xl:w-2/3 <sm:w-11/12 m-auto px-8 py-5 mt-3 opacity-100 break-all">
       <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center md:justify-self-center">Title</label>
         <input type="text" v-model="formData.title" required minlength="3" maxlength="50"
@@ -55,7 +56,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-4 col-span-2 mt-20">
+      <div class="grid grid-cols-4 col-span-2 mt-20 <sm:mt-30">
         <button type="submit"
           class="col-start-2 <sm:col-start-1 py-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)">Save</button>
       </div>
@@ -63,19 +64,19 @@
   </Modal>
 
   <Modal v-if="hasRole('update')" type="update">
-    <form @submit.prevent="handleUpdate" class="bg-white w-3/4 xl:w-1/3  m-auto px-8 py-5 mt-3 opacity-100">
-      <div class="grid grid-cols-4 col-span-2 mb-5">
+    <form @submit.prevent="handleUpdate" class="bg-white w-3/4 xl:w-1/3 <sm:w-11/12 m-auto px-8 py-5 mt-3 opacity-100">
+      <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center">ID</label>
         <input v-model="project.ID" type="text" readonly class="col-span-3 p-3 focus:(border-dark-500 ring-gray-500)"
           placeholder="Project Name">
       </div>
-      <div class="grid grid-cols-4 col-span-2 mb-5">
+      <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center">Name</label>
         <input v-model="project.title" type="text" required minlength="3" maxlength="50"
           class="col-span-3 p-3 focus:(border-dark-500 ring-gray-500) placeholder-gray-500" placeholder="Project Name">
       </div>
 
-      <div class="grid grid-cols-4 col-span-2 mb-5">
+      <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center">Description</label>
         <textarea v-model="project.description" maxlength="120"
           class="col-span-3 resize-none p-3 focus:(border-dark-500 ring-gray-500) placeholder-gray-500"
@@ -84,7 +85,7 @@
 
       <div class="grid grid-cols-4 col-span-2">
         <button type="submit"
-          class="col-start-2 py-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)">Save</button>
+          class="col-start-2 <sm:col-start-1 py-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)">Save</button>
       </div>
 
     </form>

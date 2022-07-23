@@ -22,7 +22,7 @@ const activeProject = computed<any>(() => {
       }}</RouterLink>
     </header>
 
-    <div class="w-full md:w-3/4 xl:w-2/4 m-auto">
+    <div class="w-full md:w-3/4 xl:w-2/4 m-auto break-all">
       <RouterView />
     </div>
   </div>

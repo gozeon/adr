@@ -20,7 +20,7 @@
   </div>
 
   <Modal v-if="hasRole('create')" type="create">
-    <form @submit.prevent="handleSubmit" class="bg-white w-3/4 xl:w-1/3  m-auto px-8 py-5 mt-3 opacity-100">
+    <form @submit.prevent="handleSubmit" class="bg-white w-3/4 xl:w-1/3 <sm:w-11/12 m-auto px-8 py-5 mt-3 opacity-100">
       <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-center">Name</label>
         <input v-model="formData.title" type="text" required minlength="3" maxlength="50"
