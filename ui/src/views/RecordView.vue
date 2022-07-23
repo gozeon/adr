@@ -14,12 +14,12 @@
     <small>上次修改时间: {{ formatTime(record.UpdatedAt) }}</small>
   </p>
 
-  <p class="mt-5 px-3 md:px-4 cursor-pointer" v-html="record.description">
+  <p class="mt-5 px-3 md:px-4 cursor-pointer img-w-full" v-html="record.description">
   </p>
 
   <div class="px-3 md:px-5 mt-6 m-3 border-1 " v-for="comment in comments">
     <div class="py-1 border-b-1"><small>{{ formatTime(comment.CreatedAt) }}</small></div>
-    <div v-html="comment.description"></div>
+    <div class="img-w-full" v-html="comment.description"></div>
   </div>
 
   <div class="m-3 mt-12">
@@ -133,3 +133,12 @@ watchEffect(() => {
 })
 
 </script>
+
+<style scoped>
+/* https://github.com/vuejs/core/issues/4745 */
+/* https://vue-loader.vuejs.org/guide/scoped-css.html */
+/* https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md */
+.img-w-full :deep(img) {
+  width: 100%;
+}
+</style>

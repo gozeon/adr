@@ -16,7 +16,7 @@
           '': record.status == 3,
           'text-notion-red line-through': record.status == 4,
           'text-notion-gray line-through': record.status == 5,
-        }">{{ record.title }}</div>
+        }" @click.self="handleDetail(record.ID)">{{ record.title }}</div>
         <select class="px-10" :class="{
           'bg-notion-yellow_background': record.status == 1,
           'bg-notion-teal_background': record.status == 2,
