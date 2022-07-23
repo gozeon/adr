@@ -9,6 +9,10 @@ export default function useToggleModal() {
         modal.role = modal.role.filter((currentRole: any) => currentRole.type !== role)
     }
 
+    const closeAll = () => {
+        modal.role = []
+    }
+
     const openModal = (role = "") => {
         modal.role.push({ type: role, isOpen: true })
     }
@@ -32,6 +36,7 @@ export default function useToggleModal() {
         state: readonly(modal),
         closeModal,
         openModal,
+        closeAll,
         hasRole
     }
 }

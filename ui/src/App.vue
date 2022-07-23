@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { computed } from '@vue/reactivity';
-import { RouterView, RouterLink, useRouter } from 'vue-router'
+import { watch } from 'vue';
+import { RouterView, RouterLink, useRouter, useRoute } from 'vue-router'
 
+import useToggleModal from './components/Modal/toggleModal';
 import { useProjectStore } from "./stores/project";
 
+const route = useRoute()
 const store = useProjectStore()
+const { closeAll } = useToggleModal()
 const activeProject = computed<any>(() => {
   if (useRouter().currentRoute.value.name == 'home') {
     return {}
   }
   return store.activeProject
+})
+
+watch(() => route.name, () => {
+  // TODO: 应该有更好的方法
+  closeAll()
 })
 </script>
 
