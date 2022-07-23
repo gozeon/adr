@@ -7,7 +7,7 @@
   </p>
 
   <ul class="list-decimal mt-12 px-20">
-    <li class="mb-3 hover:(bg-stone-100) px-4 cursor-pointer" v-for="record in records">
+    <li class="mb-3 hover:(bg-stone-100) pl-4 cursor-pointer" v-for="record in records">
 
       <div class="flex justify-between" @click.self="handleDetail(record.ID)">
         <div class="underline" :class="{

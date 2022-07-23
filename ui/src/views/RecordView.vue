@@ -1,16 +1,19 @@
 <template>
   <h3 class="mt-10 text-3xl cursor-pointer divide-light-600 px-3 md:px-4" @click="openModal('create')">
-    <span class="px-2 rounded-md transform scale-" :class="{
+    {{ record.title }}
+  </h3>
+
+  <p class="px-3 md:px-4">
+    <small class="px-2 py-1 rounded-md mr-3" :class="{
       'bg-notion-yellow_background': record.status == 1,
       'bg-notion-teal_background': record.status == 2,
       'bg-notion-brown_background': record.status == 3,
       'bg-notion-red_background': record.status == 4,
       'bg-notion-gray_background': record.status == 5,
-    }">{{ recordStore.getStatusLabelById(record.status) }}</span>
-    {{ record.title }}
-  </h3>
+    }">{{ recordStore.getStatusLabelById(record.status) }}</small>
+    <small>上次修改时间: {{ formatTime(record.UpdatedAt) }}</small>
+  </p>
 
-  <small class="px-3 md:px-4">修改时间: {{ formatTime(record.UpdatedAt) }}</small>
   <p class="mt-5 px-3 md:px-4 cursor-pointer" v-html="record.description">
   </p>
 
@@ -21,7 +24,7 @@
 
   <div class="m-3 mt-12">
     <div class="h-[150px] box-border">
-      <QuillEditor placeholder="Record Comment" content-type="html" v-model:content="description">
+      <QuillEditor placeholder="Record Comment" content-type="html" v-model:content="description" ref="editor">
       </QuillEditor>
     </div>
     <button
@@ -52,14 +55,13 @@
       </div>
     </form>
   </Modal>
-
 </template>
 
 <script setup lang="ts">
-import mediumZoom from 'medium-zoom'
-import { computed, ref, watchEffect } from "vue";
+import { computed, ref, nextTick, watchEffect } from "vue";
 import { useRoute } from "vue-router";
-import { QuillEditor } from '@vueup/vue-quill'
+import mediumZoom, { type Zoom } from 'medium-zoom'
+import { QuillEditor, Quill } from '@vueup/vue-quill'
 
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useProjectStore } from "../stores/project";
@@ -81,6 +83,7 @@ const pid = route.params.pid
 const recordId = route.params.id
 const { openModal, hasRole, closeModal } = useToggleModal()
 const description = ref('')
+const editor = ref<Quill>(null)
 
 // load data
 projectStore.loadDetail(pid)
@@ -104,8 +107,8 @@ const handleAddComment = async () => {
       record_id: +recordId,
     })
     if (data?.errNo == 0) {
-      // TODO: not work
-      description.value = ""
+      // https://github.com/vueup/vue-quill/issues/35
+      editor.value.setHTML("")
       commentStore.loadCommentById(recordId)
     } else {
       alert(data.errMsg)
@@ -116,8 +119,17 @@ const handleAddComment = async () => {
 
 const formatTime = (time: any) => DateTime.fromISO(time).setLocale('zh-cn').toLocaleString(DateTime.DATETIME_MED_WITH_SECONDS)
 
+let zoom: Zoom
 watchEffect(() => {
-  // TODO not woring
-  mediumZoom('img')
+  // watch target
+  console.log(record.value, comments.value, description.value)
+  nextTick(() => {
+    if (zoom) {
+      zoom.detach()
+    }
+    zoom = mediumZoom('img')
+
+  })
 })
+
 </script>
