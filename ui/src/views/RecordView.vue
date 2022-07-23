@@ -28,7 +28,7 @@
       </QuillEditor>
     </div>
     <button
-      class="mt-[50px] p-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)"
+      class="mt-20 p-2 bg-light-100 rounded-sm border-1 border-dark-300 hover:(bg-dark-400 text-white) focus:(ring-2 ring-gray-300)"
       @click="handleAddComment">
       Add Comment</button>
   </div>

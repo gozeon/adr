@@ -9,7 +9,7 @@
   <ul class="list-decimal mt-12 px-20">
     <li class="mb-3 hover:(bg-stone-100) pl-4 cursor-pointer" v-for="record in records">
 
-      <div class="flex justify-between" @click.self="handleDetail(record.ID)">
+      <div class="flex justify-between <sm:(flex-col gap-2)" @click.self="handleDetail(record.ID)">
         <div class="underline" :class="{
           'text-notion-yellow': record.status == 1,
           'text-notion-teal': record.status == 2,
@@ -31,7 +31,7 @@
   </ul>
 
   <div
-    class="decoration-gray-400 px-4 text-center border-1 border-dark-500 border-dashed cursor-pointer hover:(bg-stone-100) mx-20 mt-5 text-center w-2/4 xl:w-1/3"
+    class="decoration-gray-400 px-4 text-center border-1 border-dark-500 border-dashed cursor-pointer hover:(bg-stone-100) mx-20 mt-5 text-center w-2/4 xl:w-1/3 <sm:(w-9/12 mt-10 mx-auto)"
     @click="openModal('create')">
     +
   </div>
