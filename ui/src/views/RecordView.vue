@@ -24,7 +24,7 @@
 
   <div class="m-3 mt-12">
     <div class="h-[150px] box-border">
-      <QuillEditor placeholder="Record Comment" content-type="html" v-model:content="description" ref="editor">
+      <QuillEditor placeholder="Record Comment" :modules="modules" content-type="html" v-model:content="description" ref="editor">
       </QuillEditor>
     </div>
     <button
@@ -45,7 +45,7 @@
       <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-start md:justify-self-center">Description</label>
         <div class="col-span-3 h-[50vh]">
-          <QuillEditor placeholder="Record Description" content-type="html" v-model:content="record.description">
+          <QuillEditor placeholder="Record Description" :modules="modules" content-type="html" v-model:content="record.description">
           </QuillEditor>
         </div>
       </div>
@@ -59,10 +59,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, nextTick, watchEffect } from "vue";
+import { computed, ref, nextTick, watchEffect, inject } from "vue";
 import { useRoute } from "vue-router";
 import mediumZoom, { type Zoom } from 'medium-zoom'
 import { QuillEditor, Quill } from '@vueup/vue-quill'
+import ImageUploader from "quill-image-uploader";
 
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useProjectStore } from "../stores/project";
@@ -85,6 +86,23 @@ const recordId = route.params.id
 const { openModal, hasRole, closeModal } = useToggleModal()
 const description = ref('')
 const editor = ref<Quill>(null)
+const axios: any = inject('axios')
+
+const modules = {
+  name: 'blotFormatter',  
+  module: ImageUploader, 
+  options: {
+    upload: (file: any) => {
+      const fd = new FormData()
+      fd.append('file', file)
+      return axios.post("/api/upload", fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      }).then((res:any) => res.data.data.fullpath)
+    }
+  }
+}
 
 // load data
 projectStore.loadDetail(pid)

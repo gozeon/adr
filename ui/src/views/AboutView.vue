@@ -51,7 +51,7 @@
       <div class="grid grid-cols-4 <sm:grid-cols-1 col-span-2 mb-5">
         <label class="col-span-1 self-start md:justify-self-center">Description</label>
         <div class="col-span-3 h-[50vh]">
-          <QuillEditor placeholder="Record Description" content-type="html" v-model:content="formData.description">
+          <QuillEditor placeholder="Record Description" :modules="modules" content-type="html" v-model:content="formData.description">
           </QuillEditor>
         </div>
       </div>
@@ -93,16 +93,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed, watch } from "vue";
+import { reactive, computed, watch, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { QuillEditor } from '@vueup/vue-quill'
+import ImageUploader from "quill-image-uploader";
 
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import { useProjectStore } from "../stores/project";
 import { useRecordStore } from "../stores/record";
 import useToggleModal from '../components/Modal/toggleModal';
 import Modal from '../components/Modal/index.vue'
-
 
 const route = useRoute();
 const router = useRouter();
@@ -113,7 +113,23 @@ const records = computed<any>(() => recordStore.activeRecords);
 const statusMap = computed(() => recordStore.statusMap)
 const pid = route.params.id
 const { openModal, hasRole, closeModal } = useToggleModal()
+const axios: any = inject('axios')
 
+const modules = {
+  name: 'blotFormatter',  
+  module: ImageUploader, 
+  options: {
+    upload: (file: any) => {
+      const fd = new FormData()
+      fd.append('file', file)
+      return axios.post("/api/upload", fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      }).then((res:any) => res.data.data.fullpath)
+    }
+  }
+}
 
 // load data
 projectStore.loadDetail(pid)
