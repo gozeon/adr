@@ -3,7 +3,10 @@ package main
 import (
 	"adr/model"
 	"adr/ui"
+	"fmt"
 	"net/http"
+	"path/filepath"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -50,8 +53,34 @@ func main() {
 		MaxAge: 60 * 60,
 	}))
 
+	app.Static("/public", "./assets")
+
 	// https://docs.gofiber.io/guide/grouping
 	api := app.Group("/api")
+
+	api.Post("/upload", func(c *fiber.Ctx) error {
+		// Get first file from form field "document":
+		file, err := c.FormFile("file")
+		if err != nil {
+			return err
+		}
+
+		filename := fmt.Sprintf("%d-%s", time.Now().Unix(), file.Filename)
+		file.Filename = filepath.Join("assets", filename)
+
+		if err := c.SaveFile(file, file.Filename); err != nil {
+			return err
+		}
+
+		return c.Status(200).JSON(fiber.Map{
+			"errNo": 0,
+			"data": fiber.Map{
+				"filename": filename,
+				"path":     file.Filename,
+				"fullpath": c.BaseURL() + "/public/" + filename,
+			},
+		})
+	})
 
 	api.Get("/projects", func(c *fiber.Ctx) error {
 		var json []model.Project
