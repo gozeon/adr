@@ -20,6 +20,9 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'http://localhost:3000'
+      },
+      '/public': {
+        target: 'http://localhost:3000'
       }
     }
   }
