@@ -206,6 +206,7 @@ const handleUpdate = async () => {
 //   }
 // })
 
+// @see {@link https://medium.com/js-dojo/watch-vue-route-params-query-with-composition-api-97b3c8c402e}
 // watch(
 //   () => route.query.id,
 //   newId => {
